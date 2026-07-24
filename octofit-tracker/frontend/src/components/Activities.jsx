@@ -1,6 +1,8 @@
 import CollectionState from './CollectionState.jsx'
 import { useApiCollection } from './api.js'
 
+const endpointPath = '/api/activities/'
+
 function formatDate(value) {
   if (!value) {
     return 'Recent'
@@ -14,7 +16,7 @@ function formatDate(value) {
 }
 
 function Activities() {
-  const { items: activities, status, error } = useApiCollection('activities')
+  const { items: activities, status, error } = useApiCollection(endpointPath, 'activities')
 
   return (
     <section className="page-section">

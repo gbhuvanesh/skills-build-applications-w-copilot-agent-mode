@@ -1,8 +1,10 @@
 import CollectionState from './CollectionState.jsx'
 import { useApiCollection } from './api.js'
 
+const endpointPath = '/api/leaderboard/'
+
 function Leaderboard() {
-  const { items: leaderboard, status, error } = useApiCollection('leaderboard')
+  const { items: leaderboard, status, error } = useApiCollection(endpointPath, 'leaderboard')
 
   return (
     <section className="page-section">

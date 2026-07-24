@@ -1,8 +1,10 @@
 import CollectionState from './CollectionState.jsx'
 import { useApiCollection } from './api.js'
 
+const endpointPath = '/api/teams/'
+
 function Teams() {
-  const { items: teams, status, error } = useApiCollection('teams')
+  const { items: teams, status, error } = useApiCollection(endpointPath, 'teams')
 
   return (
     <section className="page-section">

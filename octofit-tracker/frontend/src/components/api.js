@@ -6,8 +6,12 @@ export const apiBaseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev/api`
   : 'http://localhost:8000/api'
 
-export function getApiUrl(component) {
-  return `${apiBaseUrl}/${component}/`
+export function getApiUrl(endpointPath) {
+  const normalizedPath = endpointPath.startsWith('/api/')
+    ? endpointPath.replace(/^\/api/, '')
+    : `/${endpointPath.replace(/^\/|\/$/g, '')}/`
+
+  return `${apiBaseUrl}${normalizedPath}`
 }
 
 function findArray(payload, key) {
@@ -29,7 +33,7 @@ function findArray(payload, key) {
   return []
 }
 
-export function useApiCollection(component, key = component) {
+export function useApiCollection(endpointPath, key = endpointPath) {
   const [items, setItems] = useState([])
   const [status, setStatus] = useState('loading')
   const [error, setError] = useState('')
@@ -42,7 +46,7 @@ export function useApiCollection(component, key = component) {
       setError('')
 
       try {
-        const response = await fetch(getApiUrl(component), {
+        const response = await fetch(getApiUrl(endpointPath), {
           signal: controller.signal,
         })
 
@@ -65,7 +69,7 @@ export function useApiCollection(component, key = component) {
     loadItems()
 
     return () => controller.abort()
-  }, [component, key])
+  }, [endpointPath, key])
 
-  return { items, status, error, url: getApiUrl(component) }
+  return { items, status, error, url: getApiUrl(endpointPath) }
 }
